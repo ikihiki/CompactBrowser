@@ -12,14 +12,7 @@ namespace CompactBrowser
     public class BrowserListViewModel
     {
         public ReactiveCollection<BrowserViewModel> Browsers { get; } = new ReactiveCollection<BrowserViewModel>();
-        public ReactiveProperty<int> CurrentIndex { get; } = new ReactiveProperty<int>(0);
-        public BrowserViewModel CurrentBrowser
-        {
-            get
-            {
-                return Browsers[CurrentIndex.Value];
-            }
-        }
+        public ReactiveProperty<BrowserViewModel> CurrentBrowser { get; } = new ReactiveProperty<BrowserViewModel>();
 
 
         public ReactiveCollection<FavoriteViewModel> Favorites { get; } = new ReactiveCollection<FavoriteViewModel>();
@@ -33,19 +26,21 @@ namespace CompactBrowser
 
         private ReactiveProperty<bool> alwaysTrue = new ReactiveProperty<bool>(true);
         public ReactiveCommand AddBrowser { get; }
+        public ReactiveCommand<Uri> AddBrowserWithUri { get; }
 
         public BrowserListViewModel()
         {
 
             Browsers.Add(new BrowserViewModel());
+            CurrentBrowser.Value = Browsers.Last();
             CanFavorite = canFavorite.ToReadOnlyReactiveProperty();
             Favorite = canFavorite.ToReactiveCommand();
             Favorite.Subscribe(() =>
             {
-                Favorites.Add(new FavoriteViewModel(CurrentBrowser.Title.Value, CurrentBrowser.Uri.Value));
+                Favorites.Add(new FavoriteViewModel(CurrentBrowser.Value.Title.Value, CurrentBrowser.Value.Uri.Value));
                 canFavorite.Value = false;
             });
-            CurrentIndex.Subscribe(index => canFavorite.Value = !Favorites.Contains(new FavoriteViewModel(CurrentBrowser.Title.Value, CurrentBrowser.Uri.Value)));
+            CurrentBrowser.Subscribe(browser => canFavorite.Value = !Favorites.Contains(new FavoriteViewModel(browser.Title.Value, browser.Uri.Value)));
 
             RemoveBrowser = canRemoveBrowser.ToReactiveCommand<BrowserViewModel>();
             RemoveBrowser.Subscribe(vm =>
@@ -60,12 +55,22 @@ namespace CompactBrowser
             {
                 Browsers.Add(new BrowserViewModel());
                 canRemoveBrowser.Value = Browsers.Count > 1;
+                CurrentBrowser.Value = Browsers.Last();
+            });
+
+            AddBrowserWithUri = alwaysTrue.ToReactiveCommand<Uri>();
+            AddBrowserWithUri.Subscribe(uri => 
+            {
+                Browsers.Add(new BrowserViewModel(uri));
+                canRemoveBrowser.Value = Browsers.Count > 1;
+                //CurrentBrowser.Value = Browsers.Last();
+
             });
         }
 
         public void FavoriteJudge()
         {
-            canFavorite.Value = !Favorites.Contains(new FavoriteViewModel(CurrentBrowser.Title.Value, CurrentBrowser.Uri.Value),new FavoriteViewModelEqualityComparer());
+            canFavorite.Value = !Favorites.Contains(new FavoriteViewModel(CurrentBrowser.Value.Title.Value, CurrentBrowser.Value.Uri.Value),new FavoriteViewModelEqualityComparer());
         }
 
         public void RemoveJudge()

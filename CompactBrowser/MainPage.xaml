@@ -31,7 +31,7 @@
             </DataTemplate>
         </controls:HamburgerMenu.ItemTemplate>
         <Grid>
-            <Pivot x:Name="Pivot" ItemsSource="{Binding Browsers}" Grid.RowSpan="2" Margin="0,0,0,25">
+            <Pivot x:Name="Pivot" ItemsSource="{Binding Browsers}" Grid.RowSpan="2" Margin="0,0,0,25" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" PivotItemLoaded="Pivot_PivotItemLoaded">
                 <Pivot.RightHeader>
                     <Button Content="+" Command="{Binding AddBrowser}"/>
                 </Pivot.RightHeader>
@@ -65,10 +65,10 @@
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="50"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Content="戻る" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.GoBack, Mode=OneWay}"/>
-                    <Button Grid.Column="1" Content="進む" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.GoForward, Mode=OneWay}"/>
-                    <Button Grid.Column="2" Content="更新" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Refresh, Mode=OneWay}"/>
-                    <TextBox Grid.Column="3" Text="{Binding CurrentBrowser.Uri.Value}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Button Grid.Column="0" Content="戻る" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.GoBack, Mode=OneWay}"/>
+                    <Button Grid.Column="1" Content="進む" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.GoForward, Mode=OneWay}"/>
+                    <Button Grid.Column="2" Content="更新" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.Refresh, Mode=OneWay}"/>
+                    <TextBox Grid.Column="3" Text="{Binding CurrentBrowser.Value.Uri.Value}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <Button Grid.Column="4" Content="☆"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Favorite, Mode=OneWay}"/>
                     <Button Grid.Column="5" Content="PiP"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"/>
                 </Grid>

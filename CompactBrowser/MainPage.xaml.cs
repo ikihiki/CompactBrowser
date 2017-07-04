@@ -36,15 +36,14 @@ namespace CompactBrowser
         {
             var context = (BrowserListViewModel)this.DataContext;
 
-            context.CurrentBrowser.Navigate.Execute(((FavoriteViewModel)e.ClickedItem).Uri.ToString());
+            context.CurrentBrowser.Value.Navigate.Execute(((FavoriteViewModel)e.ClickedItem).Uri.ToString());
         }
 
         private void BrowserControl_NewWindowReqested(Uri obj)
         {
             var context = (BrowserListViewModel)this.DataContext;
 
-            context.Browsers.Add(new BrowserViewModel(obj));
-            context.RemoveJudge();
+            context.AddBrowserWithUri.Execute(obj);
         }
 
         private void BrowserControl_NavigationCompleted()
@@ -103,6 +102,11 @@ namespace CompactBrowser
         private void Page_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             pointer = true;
+        }
+
+        private void Pivot_PivotItemLoaded(Pivot sender, PivotItemEventArgs args)
+        {
+
         }
     }
 }
