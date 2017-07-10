@@ -1,0 +1,100 @@
+﻿<prism:SessionStateAwarePage
+    x:Class="CompactBrowser.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:control="using:CompactBrowser.Controls"
+    xmlns:model="using:CompactBrowser.ViewModels"
+    xmlns:prism="using:Prism.Windows.Mvvm"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    d:DataContext="{d:DesignInstance Type=model:MainPageViewModel}">
+
+    <prism:SessionStateAwarePage.Resources>
+        <Style TargetType="PivotItem">
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+    </prism:SessionStateAwarePage.Resources>
+    
+    
+
+    <RelativePanel>
+        <RelativePanel x:Name="TopAppBar" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+            <AppBarButton x:Name="TopBack" RelativePanel.AlignLeftWithPanel="True" Label="戻る" Command="{Binding CurrentBrowser.Value.GoBack}" Icon="Back"/>
+            <AppBarButton x:Name="TopForward" RelativePanel.RightOf="TopBack" Label="進む" Command="{Binding CurrentBrowser.Value.GoForward}" Icon="Forward"/>
+            <AppBarButton x:Name="TopRefresh" RelativePanel.RightOf="TopForward" Label="更新" Command="{Binding CurrentBrowser.Value.Refresh}" Icon="Refresh"/>
+            <TextBox RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" Text="{Binding CurrentBrowser.Value.Uri.Value}"/>
+            <AppBarButton x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" Label="ブックマーク" Command="{Binding Favorite}" Icon="OutlineStar"/>
+            <AppBarButton x:Name="TopPip" RelativePanel.LeftOf="TopOther" Label="コンパクト化" Click="Button_Click" Icon="Go"/>
+            <AppBarButton x:Name="TopOther" RelativePanel.AlignRightWithPanel="True" Label="その他" Icon="More" Click="TopOther_Click" />
+        </RelativePanel>
+
+        <controls:HamburgerMenu
+        PaneBackground="Black" x:Name="HamburgerMenu"
+                                Foreground="White"
+                                OpenPaneLength="240"
+                                CompactPaneLength="48"
+                                HamburgerHeight="48"
+                                HamburgerVisibility="Collapsed"
+                RelativePanel.Below="TopAppBar"
+            RelativePanel.AlignBottomWithPanel="True"
+                                IsPaneOpen="True" ItemsSource="{Binding Favorites}" DisplayMode="Overlay" PanePlacement="Right">
+            <controls:HamburgerMenu.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" Foreground="White"/>
+                </DataTemplate>
+            </controls:HamburgerMenu.ItemTemplate>
+            <Pivot x:Name="Pivot"   ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" IsHeaderItemsCarouselEnabled="False">
+                <Pivot.RightHeader>
+                    <Button Content="+" Command="{Binding AddBrowser}"/>
+                </Pivot.RightHeader>
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Title.Value}"/>
+                            <AppBarButton Grid.Column="1" Label="閉じる" Icon="Clear" CommandParameter="{Binding}" Command="{Binding DataContext.RemoveBrowser, ElementName=HamburgerMenu}" IsTextScaleFactorEnabled="True" IsCompact="True" />
+                        </Grid>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+
+                <Pivot.ItemTemplate>
+                    <DataTemplate>
+                        <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"/>
+                    </DataTemplate>
+                </Pivot.ItemTemplate>
+
+            </Pivot>
+        </controls:HamburgerMenu>
+
+    </RelativePanel>
+
+
+    <prism:SessionStateAwarePage.BottomAppBar>
+        <AppBar x:Name="BottomAppBar" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="戻る" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.GoBack, Mode=OneWay}"/>
+                <Button Grid.Column="1" Content="進む" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.GoForward, Mode=OneWay}"/>
+                <Button Grid.Column="2" Content="更新" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.Refresh, Mode=OneWay}"/>
+                <TextBox Grid.Column="3" Text="{Binding CurrentBrowser.Value.Uri.Value}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button Grid.Column="4" Content="☆"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Favorite, Mode=OneWay}"/>
+                <Button Grid.Column="5" Content="PiP"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click"/>
+            </Grid>
+        </AppBar>
+    </prism:SessionStateAwarePage.BottomAppBar>
+
+
+</prism:SessionStateAwarePage>
