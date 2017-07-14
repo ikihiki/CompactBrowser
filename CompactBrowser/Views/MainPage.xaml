@@ -17,9 +17,6 @@
             <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
     </prism:SessionStateAwarePage.Resources>
-    
-    
-
     <RelativePanel>
         <RelativePanel x:Name="TopAppBar" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
             <AppBarButton x:Name="TopBack" RelativePanel.AlignLeftWithPanel="True" Label="戻る" Command="{Binding CurrentBrowser.Value.GoBack}" Icon="Back"/>
@@ -31,22 +28,13 @@
             <AppBarButton x:Name="TopOther" RelativePanel.AlignRightWithPanel="True" Label="その他" Icon="More" Click="TopOther_Click" />
         </RelativePanel>
 
-        <controls:HamburgerMenu
-        PaneBackground="Black" x:Name="HamburgerMenu"
-                                Foreground="White"
-                                OpenPaneLength="240"
-                                CompactPaneLength="48"
-                                HamburgerHeight="48"
-                                HamburgerVisibility="Collapsed"
-                RelativePanel.Below="TopAppBar"
+        <SplitView
+            x:Name="Menu"
+            RelativePanel.Below="TopAppBar"
             RelativePanel.AlignBottomWithPanel="True"
-                                IsPaneOpen="True" ItemsSource="{Binding Favorites}" DisplayMode="Overlay" PanePlacement="Right">
-            <controls:HamburgerMenu.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Title}" Foreground="White"/>
-                </DataTemplate>
-            </controls:HamburgerMenu.ItemTemplate>
-            <Pivot x:Name="Pivot"   ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" IsHeaderItemsCarouselEnabled="False">
+            IsPaneOpen="False"
+            DisplayMode="Overlay" PanePlacement="Right">
+            <Pivot x:Name="Pivot" ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" >
                 <Pivot.RightHeader>
                     <Button Content="+" Command="{Binding AddBrowser}"/>
                 </Pivot.RightHeader>
@@ -70,7 +58,7 @@
                 </Pivot.ItemTemplate>
 
             </Pivot>
-        </controls:HamburgerMenu>
+        </SplitView>
 
     </RelativePanel>
 

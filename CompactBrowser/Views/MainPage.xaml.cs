@@ -98,7 +98,7 @@ namespace CompactBrowser.Views
 
         private void TopOther_Click(object sender, RoutedEventArgs e)
         {
-            HamburgerMenu.IsPaneOpen = true;
+            Menu.IsPaneOpen = true;
         }
     }
 }
