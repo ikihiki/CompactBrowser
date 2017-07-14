@@ -12,69 +12,60 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     d:DataContext="{d:DesignInstance Type=model:MainPageViewModel}">
 
-    <prism:SessionStateAwarePage.Resources>
-        <Style TargetType="PivotItem">
-            <Setter Property="Margin" Value="0,0,0,0"/>
-        </Style>
-    </prism:SessionStateAwarePage.Resources>
-    <RelativePanel>
-        <RelativePanel x:Name="TopAppBar" >
-            <Button x:Name="TopBack" RelativePanel.AlignLeftWithPanel="True" ToolTipService.ToolTip="戻る" Command="{Binding CurrentBrowser.Value.GoBack}" Height="45" Width="45">
-                <SymbolIcon Symbol="Back"/>
-            </Button>
-            <Button x:Name="TopForward" RelativePanel.RightOf="TopBack" ToolTipService.ToolTip="進む" Command="{Binding CurrentBrowser.Value.GoForward}" Height="45" Width="45">
-                <SymbolIcon Symbol="Forward"/>
-            </Button>
-            <Button x:Name="TopRefresh" RelativePanel.RightOf="TopForward" ToolTipService.ToolTip="更新" Command="{Binding CurrentBrowser.Value.Refresh}" Height="45" Width="45">
-                <SymbolIcon Symbol="Refresh"/>
-            </Button>
-            <TextBox RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" VerticalAlignment="Center" Text="{Binding CurrentBrowser.Value.Uri.Value}"/>
-            <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{Binding Favorite}" Height="45" Width="45">
-                <SymbolIcon Symbol="OutlineStar" />
-            </Button>
-            <Button x:Name="TopPip" RelativePanel.LeftOf="TopOther" ToolTipService.ToolTip="コンパクト化" Click="Button_Click" Height="45" Width="45">
-                <SymbolIcon Symbol="Go"/>
-            </Button>
-            <Button x:Name="TopOther" RelativePanel.AlignRightWithPanel="True" ToolTipService.ToolTip="その他" Click="TopOther_Click" Height="45" Width="45">
-                <SymbolIcon Symbol="More"/>
-            </Button>
-        </RelativePanel>
-
-        <SplitView
+    <SplitView
             x:Name="Menu"
-            RelativePanel.Below="TopAppBar"
-            RelativePanel.AlignBottomWithPanel="True"
             IsPaneOpen="False"
             DisplayMode="Overlay" PanePlacement="Right">
-            <Pivot x:Name="Pivot" ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" >
-                <Pivot.RightHeader>
-                    <Button Content="+" Command="{Binding AddBrowser}"/>
-                </Pivot.RightHeader>
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="50"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Title.Value}"/>
-                            <AppBarButton Grid.Column="1" Label="閉じる" Icon="Clear" CommandParameter="{Binding}" Command="{Binding DataContext.RemoveBrowser, ElementName=HamburgerMenu}" IsTextScaleFactorEnabled="True" IsCompact="True" />
-                        </Grid>
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
+        <control:BrowserTabControl x:Name="Pivot" ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" >
+            <control:BrowserTabControl.NavigationBar>
+                <RelativePanel >
+                    <Button x:Name="TopBack" RelativePanel.AlignLeftWithPanel="True" ToolTipService.ToolTip="戻る" Command="{Binding CurrentBrowser.Value.GoBack}" Height="45" Width="45">
+                        <SymbolIcon Symbol="Back"/>
+                    </Button>
+                    <Button x:Name="TopForward" RelativePanel.RightOf="TopBack" ToolTipService.ToolTip="進む" Command="{Binding CurrentBrowser.Value.GoForward}" Height="45" Width="45">
+                        <SymbolIcon Symbol="Forward"/>
+                    </Button>
+                    <Button x:Name="TopRefresh" RelativePanel.RightOf="TopForward" ToolTipService.ToolTip="更新" Command="{Binding CurrentBrowser.Value.Refresh}" Height="45" Width="45">
+                        <SymbolIcon Symbol="Refresh"/>
+                    </Button>
+                    <TextBox RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" VerticalAlignment="Center" Text="{Binding CurrentBrowser.Value.Uri.Value}"/>
+                    <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{Binding Favorite}" Height="45" Width="45">
+                        <SymbolIcon Symbol="OutlineStar" />
+                    </Button>
+                    <Button x:Name="TopPip" RelativePanel.LeftOf="TopOther" ToolTipService.ToolTip="コンパクト化" Click="Button_Click" Height="45" Width="45">
+                        <SymbolIcon Symbol="Go"/>
+                    </Button>
+                    <Button x:Name="TopOther" RelativePanel.AlignRightWithPanel="True" ToolTipService.ToolTip="その他" Click="TopOther_Click" Height="45" Width="45">
+                        <SymbolIcon Symbol="More"/>
+                    </Button>
+                </RelativePanel>
+            </control:BrowserTabControl.NavigationBar>
 
-                <Pivot.ItemTemplate>
-                    <DataTemplate>
-                        <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"/>
-                    </DataTemplate>
-                </Pivot.ItemTemplate>
+            <control:BrowserTabControl.RightHeader>
+                <Button Content="+" Command="{Binding AddBrowser}"/>
+            </control:BrowserTabControl.RightHeader>
+            <control:BrowserTabControl.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Title.Value}"/>
+                        <AppBarButton Grid.Column="1" Label="閉じる" Icon="Clear" CommandParameter="{Binding}" Command="{Binding DataContext.RemoveBrowser, ElementName=HamburgerMenu}" IsTextScaleFactorEnabled="True" IsCompact="True" />
+                    </Grid>
+                </DataTemplate>
+            </control:BrowserTabControl.HeaderTemplate>
 
-            </Pivot>
-        </SplitView>
+            <control:BrowserTabControl.ItemTemplate>
+                <DataTemplate>
+                    <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"/>
+                </DataTemplate>
+            </control:BrowserTabControl.ItemTemplate>
 
-    </RelativePanel>
-
-
+        </control:BrowserTabControl>
+    </SplitView>
+    
     <prism:SessionStateAwarePage.BottomAppBar>
         <AppBar x:Name="BottomAppBar" Visibility="Collapsed">
             <Grid>

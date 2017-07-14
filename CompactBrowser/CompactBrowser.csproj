@@ -98,6 +98,9 @@
     <Compile Include="Controls\BrowserControl.xaml.cs">
       <DependentUpon>BrowserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BrowserTabControl.xaml.cs">
+      <DependentUpon>BrowserTabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BrowserViewModel.cs" />
     <Compile Include="Models\Favorite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,6 +134,10 @@
     <Page Include="Controls\BrowserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BrowserTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
