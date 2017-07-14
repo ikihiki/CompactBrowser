@@ -21,7 +21,7 @@ namespace CompactBrowser.Controls
     public class BrowserTabBase : Pivot
     {
         public static DependencyProperty NavigationBarProperty { get; } =
-    DependencyProperty.Register("NavigationBar", typeof(object), typeof(BrowserTabBase), null);
+            DependencyProperty.Register("NavigationBar", typeof(object), typeof(BrowserTabBase), null);
 
         public object NavigationBar
         {
@@ -30,16 +30,41 @@ namespace CompactBrowser.Controls
         }
 
         public static DependencyProperty NavigationBarTemplateProperty { get; } =
-DependencyProperty.Register("NavigationBarTemplate", typeof(DataTemplate), typeof(BrowserTabBase), null);
+            DependencyProperty.Register("NavigationBarTemplate", typeof(DataTemplate), typeof(BrowserTabBase), null);
 
         public DataTemplate NavigationBarTemplate
         {
             get => (DataTemplate)GetValue(NavigationBarTemplateProperty);
             set => SetValue(NavigationBarTemplateProperty, value);
         }
+
+        public static DependencyProperty IsPaneOpenProperty { get; } =
+            DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(BrowserTabBase), null);
+
+        public bool IsPaneOpen
+        {
+            get => (bool)GetValue(IsPaneOpenProperty);
+            set => SetValue(IsPaneOpenProperty, value);
+        }
+
+        public static DependencyProperty PaneProperty { get; } =
+            DependencyProperty.Register("Pane", typeof(object), typeof(BrowserTabBase), null);
+
+        public object Pane
+        {
+            get => GetValue(PaneProperty);
+            set => SetValue(PaneProperty, value);
+        }
+
+        public static DependencyProperty HeaderVisibilityProperty { get; } =
+            DependencyProperty.Register("HeaderVisibility", typeof(Visibility), typeof(BrowserTabBase), null);
+
+        public Visibility HeaderVisibility
+        {
+            get => (Visibility)GetValue(HeaderVisibilityProperty);
+            set => SetValue(HeaderVisibilityProperty, value);
+        }
     }
-
-
 
 
     public sealed partial class BrowserTabControl : BrowserTabBase

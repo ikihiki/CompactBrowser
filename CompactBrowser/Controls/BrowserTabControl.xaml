@@ -203,8 +203,8 @@
                                 <Grid.RenderTransform>
                                     <CompositeTransform x:Name="PivotLayoutElementTranslateTransform"/>
                                 </Grid.RenderTransform>
-                                <ContentPresenter x:Name="LeftHeaderPresenter" ContentTemplate="{TemplateBinding LeftHeaderTemplate}" Content="{TemplateBinding LeftHeader}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,400,0"/>
-                                <ContentControl x:Name="HeaderClipper" Grid.Column="1" HorizontalContentAlignment="Stretch" UseSystemFocusVisuals="True">
+                                <ContentPresenter x:Name="LeftHeaderPresenter" Visibility="{TemplateBinding HeaderVisibility}" ContentTemplate="{TemplateBinding LeftHeaderTemplate}" Content="{TemplateBinding LeftHeader}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="0,0,400,0"/>
+                                <ContentControl x:Name="HeaderClipper" Grid.Column="1" Visibility="{TemplateBinding HeaderVisibility}" HorizontalContentAlignment="Stretch" UseSystemFocusVisuals="True">
                                     <ContentControl.Clip>
                                         <RectangleGeometry x:Name="HeaderClipperGeometry"/>
                                     </ContentControl.Clip>
@@ -224,18 +224,20 @@
                                         </PivotHeaderPanel>
                                     </Grid>
                                 </ContentControl>
-                                <Button x:Name="PreviousButton" Background="Transparent" Grid.Column="1" HorizontalAlignment="Left" Height="36" IsTabStop="False" IsEnabled="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource PreviousTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20"/>
-                                <Button x:Name="NextButton" Background="Transparent" Grid.Column="1" HorizontalAlignment="Right" Height="36" IsTabStop="False" IsEnabled="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource NextTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20"/>
-                                <ContentPresenter x:Name="RightHeaderPresenter" ContentTemplate="{TemplateBinding RightHeaderTemplate}" Content="{TemplateBinding RightHeader}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                <ContentPresenter  x:Name="NavigationPresenter" Grid.Row="1" Grid.ColumnSpan="3" ContentTemplate="{TemplateBinding NavigationBarTemplate}" Content="{TemplateBinding NavigationBar}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                <ItemsPresenter x:Name="PivotItemPresenter" Grid.ColumnSpan="3" Grid.Row="2">
-                                    <ItemsPresenter.RenderTransform>
-                                        <TransformGroup>
-                                            <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
-                                            <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
-                                        </TransformGroup>
-                                    </ItemsPresenter.RenderTransform>
-                                </ItemsPresenter>
+                                <Button x:Name="PreviousButton" Visibility="{TemplateBinding HeaderVisibility}" Background="Transparent" Grid.Column="1" HorizontalAlignment="Left" Height="36" IsTabStop="False" IsEnabled="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource PreviousTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20"/>
+                                <Button x:Name="NextButton" Visibility="{TemplateBinding HeaderVisibility}" Background="Transparent" Grid.Column="1" HorizontalAlignment="Right" Height="36" IsTabStop="False" IsEnabled="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource NextTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20"/>
+                                <ContentPresenter x:Name="RightHeaderPresenter" Visibility="{TemplateBinding HeaderVisibility}" ContentTemplate="{TemplateBinding RightHeaderTemplate}" Content="{TemplateBinding RightHeader}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <ContentPresenter  x:Name="NavigationPresenter" Visibility="{TemplateBinding HeaderVisibility}" Grid.Row="1" Grid.ColumnSpan="3" ContentTemplate="{TemplateBinding NavigationBarTemplate}" Content="{TemplateBinding NavigationBar}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                <SplitView x:Name="PivotItemView" Grid.ColumnSpan="3" Grid.Row="2" IsPaneOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}" Pane="{TemplateBinding Pane}"  DisplayMode="Overlay" PanePlacement="Right">
+                                    <ItemsPresenter x:Name="PivotItemPresenter" >
+                                        <ItemsPresenter.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
+                                                <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
+                                            </TransformGroup>
+                                        </ItemsPresenter.RenderTransform>
+                                    </ItemsPresenter>
+                                </SplitView>
                             </Grid>
                         </PivotPanel>
                     </ScrollViewer>

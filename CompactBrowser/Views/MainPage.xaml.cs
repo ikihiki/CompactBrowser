@@ -64,8 +64,7 @@ namespace CompactBrowser.Views
             {
                 if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay))
                 {
-                    this.Pivot.Margin = new Thickness(0, -50, 0, 0);
-                    TopAppBar.Visibility = Visibility.Collapsed;
+                    Pivot.HeaderVisibility = Visibility.Collapsed;
                     BottomAppBar.Visibility = Visibility.Visible;
                     viewMode = ApplicationViewMode.CompactOverlay;
                 }
@@ -75,8 +74,7 @@ namespace CompactBrowser.Views
             {
                 if (await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default))
                 {
-                    this.Pivot.Margin = new Thickness(0, 0, 0, 0);
-                    TopAppBar.Visibility = Visibility.Visible;
+                    Pivot.HeaderVisibility = Visibility.Visible;
                     BottomAppBar.Visibility = Visibility.Collapsed;
                     viewMode = ApplicationViewMode.Default;
                 }
@@ -86,19 +84,10 @@ namespace CompactBrowser.Views
 
         }
 
-        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = "PonterExtied";
-        }
-
-        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = "PonterEntered";
-        }
 
         private void TopOther_Click(object sender, RoutedEventArgs e)
         {
-            Menu.IsPaneOpen = true;
+            Pivot.IsPaneOpen = true;
         }
     }
 }
