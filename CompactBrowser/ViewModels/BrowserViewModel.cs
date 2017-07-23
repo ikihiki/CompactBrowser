@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using System.Reactive.Subjects;
 
-namespace CompactBrowser
+namespace CompactBrowser.ViewModels
 {
     public class BrowserViewModel
     {
