@@ -46,20 +46,23 @@
 
         <control:BrowserTabControl.HeaderTemplate>
             <DataTemplate>
-                <Grid>
+                <Grid Width="200">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Title.Value}"/>
-                    <AppBarButton Grid.Column="1" Label="閉じる" Icon="Clear" CommandParameter="{Binding}" Command="{Binding DataContext.RemoveBrowser, ElementName=HamburgerMenu}" IsTextScaleFactorEnabled="True" IsCompact="True" />
+
+                    <TextBlock Text="{Binding Title.Value}" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{Binding Title.Value}"/>
+                    <Button Grid.Column="1" ToolTipService.ToolTip="閉じる" Click="Close_Click" Background="Transparent">
+                        <SymbolIcon Symbol="Clear"/>
+                    </Button>
                 </Grid>
             </DataTemplate>
         </control:BrowserTabControl.HeaderTemplate>
 
         <control:BrowserTabControl.ItemTemplate>
             <DataTemplate>
-                <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"/>
+                <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested"/>
             </DataTemplate>
         </control:BrowserTabControl.ItemTemplate>
 

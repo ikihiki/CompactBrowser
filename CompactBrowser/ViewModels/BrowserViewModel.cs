@@ -24,7 +24,7 @@ namespace CompactBrowser.ViewModels
         private Subject<bool> alwaysTrue = new Subject<bool>();
 
         public ReadOnlyReactiveProperty<string> Title { get; }
-        private ReactiveProperty<string> title =  new ReactiveProperty<string>("Test");
+        private ReactiveProperty<string> title =  new ReactiveProperty<string>("新しいタブ");
 
         public ReactiveProperty<Uri> Uri { get; } = new ReactiveProperty<Uri>(new System.Uri("http://www.google.co.jp"));
 

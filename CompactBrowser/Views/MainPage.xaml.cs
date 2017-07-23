@@ -1,4 +1,5 @@
-﻿using Prism.Windows.Mvvm;
+﻿using CompactBrowser.ViewModels;
+using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,6 +28,14 @@ namespace CompactBrowser.Views
     public sealed partial class MainPage : SessionStateAwarePage
     {
         ApplicationViewMode viewMode = ApplicationViewMode.Default;
+
+        public MainPageViewModel ViewModel
+        {
+            get
+            {
+                return (MainPageViewModel)this.DataContext;
+            }
+        }
 
         public MainPage()
         {
@@ -88,6 +97,18 @@ namespace CompactBrowser.Views
         private void TopOther_Click(object sender, RoutedEventArgs e)
         {
             Pivot.IsPaneOpen = true;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.Browsers.Count > 1)
+            {
+                ((ViewModels.MainPageViewModel)this.DataContext).RemoveBrowser.Execute((BrowserViewModel)((Button)sender).DataContext);
+            }
+            else
+            {
+                Application.Current.Exit();
+            }
         }
     }
 }
