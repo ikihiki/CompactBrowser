@@ -25,7 +25,7 @@
                     <SymbolIcon Symbol="Refresh"/>
                 </Button>
                 <Border RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
-                    <TextBox Text="{Binding CurrentBrowser.Value.Uri.Value}" Height="35" Margin="10,5,10,5" />
+                    <TextBox Text="{Binding CurrentBrowser.Value.Uri.Value}" Height="35" Margin="10,5,10,5"  KeyUp="TextBox_KeyUp"/>
                 </Border>
                 <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{Binding Favorite}" Height="45" Width="45">
                     <SymbolIcon Symbol="OutlineStar" />

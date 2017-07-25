@@ -110,5 +110,16 @@ namespace CompactBrowser.Views
                 Application.Current.Exit();
             }
         }
+
+        private void TextBox_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                if (Uri.TryCreate(((TextBox)sender).Text, UriKind.Absolute, out var uri))
+                {
+                    ViewModel.CurrentBrowser.Value.Uri.Value = uri;
+                }
+            }
+        }
     }
 }
