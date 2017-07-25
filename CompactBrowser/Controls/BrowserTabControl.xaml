@@ -10,10 +10,7 @@
     d:DesignWidth="400">
 
     <local:BrowserTabBase.Resources>
-        <Style TargetType="PivotItem">
-            <Setter Property="Margin" Value="0,0,0,0"/>
-        </Style>
-        <Style TargetType="PivotHeaderItem">
+        <Style x:Key="BrowserTab" TargetType="PivotHeaderItem">
             <Setter Property="Height" Value="36"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -345,6 +342,9 @@
                                         <Grid.RenderTransform>
                                             <CompositeTransform x:Name="HeaderOffsetTranslateTransform"/>
                                         </Grid.RenderTransform>
+                                        <Grid.Resources>
+                                            <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource BrowserTab}"/>
+                                        </Grid.Resources>
                                         <PivotHeaderPanel x:Name="StaticHeader" Visibility="Collapsed">
                                             <PivotHeaderPanel.RenderTransform>
                                                 <CompositeTransform x:Name="StaticHeaderTranslateTransform"/>
@@ -363,6 +363,11 @@
                                 <ContentPresenter  x:Name="NavigationPresenter" Visibility="{TemplateBinding HeaderVisibility}" Grid.Row="1" Grid.ColumnSpan="3" ContentTemplate="{TemplateBinding NavigationBarTemplate}" Content="{TemplateBinding NavigationBar}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                 <SplitView x:Name="PivotItemView" Grid.ColumnSpan="3" Grid.Row="2" IsPaneOpen="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsPaneOpen, Mode=TwoWay}" Pane="{TemplateBinding Pane}"  DisplayMode="Overlay" PanePlacement="Right">
                                     <ItemsPresenter x:Name="PivotItemPresenter" >
+                                        <ItemsPresenter.Resources>
+                                            <Style TargetType="PivotItem">
+                                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                            </Style>
+                                        </ItemsPresenter.Resources>
                                         <ItemsPresenter.RenderTransform>
                                             <TransformGroup>
                                                 <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>

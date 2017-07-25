@@ -44,7 +44,8 @@ namespace CompactBrowser.ViewModels
                 .ToCollectionChanged()
                 .Select(f=>f.Value.Uri)
                 .Merge(CurrentBrowser.Select(b=>b.Uri.Value))
-                .Select(u => favoriteService.ExsistFavorite(CurrentBrowser.Value.Uri.Value))
+                .Merge(CurrentBrowser.Value.Uri)
+                .Select(u => !favoriteService.ExsistFavorite(CurrentBrowser.Value.Uri.Value))
                 .ToReactiveCommand();
 
 

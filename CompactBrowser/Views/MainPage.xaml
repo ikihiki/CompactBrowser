@@ -8,6 +8,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:CompactBrowser.Models"
     mc:Ignorable="d"
     prism:ViewModelLocator.AutoWireViewModel="True"
     d:DataContext="{d:DesignInstance Type=model:MainPageViewModel}">
@@ -27,7 +28,7 @@
                 <Border RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
                     <TextBox Text="{Binding CurrentBrowser.Value.Uri.Value}" Height="35" Margin="10,5,10,5"  KeyUp="TextBox_KeyUp"/>
                 </Border>
-                <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{Binding Favorite}" Height="45" Width="45">
+                <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{x:Bind ViewModel.Favorite}" Height="45" Width="45">
                     <SymbolIcon Symbol="OutlineStar" />
                 </Button>
                 <Button x:Name="TopPip" RelativePanel.LeftOf="TopOther" ToolTipService.ToolTip="コンパクト化" Click="Button_Click" Height="45" Width="45">
@@ -65,7 +66,42 @@
                 <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested"/>
             </DataTemplate>
         </control:BrowserTabControl.ItemTemplate>
-
+        <control:BrowserTabControl.Pane>
+            <Pivot>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="OutlineStar"/>
+                            <TextBlock Text="お気に入り" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </PivotItem.Header>
+                    <ListBox x:Name="FavoriteList" ItemsSource="{x:Bind ViewModel.Favorites}" SelectionMode="Single" SelectionChanged="FavoriteList_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:Favorite">
+                                <TextBlock Text="{x:Bind Title}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </PivotItem>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Setting"/>
+                            <TextBlock Text="設定" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </PivotItem.Header>
+                    <Hub Orientation="Vertical" Margin="0,-45,0,0">
+                        <HubSection Header="Compact Overly時の設定">
+                            <DataTemplate>
+                                <StackPanel>
+                                    <ToggleSwitch Header="コントロールをブラウザにかぶせる"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </HubSection>
+                    </Hub>
+                </PivotItem>
+            </Pivot>
+        </control:BrowserTabControl.Pane>
     </control:BrowserTabControl>
 
     <prism:SessionStateAwarePage.BottomAppBar>

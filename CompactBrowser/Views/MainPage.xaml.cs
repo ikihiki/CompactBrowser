@@ -1,4 +1,5 @@
-﻿using CompactBrowser.ViewModels;
+﻿using CompactBrowser.Models;
+using CompactBrowser.ViewModels;
 using Prism.Windows.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -124,6 +125,24 @@ namespace CompactBrowser.Views
                     ViewModel.CurrentBrowser.Value.Uri.Value = uri;
                 }
             }
+        }
+
+        private void Favorite_Click(object sender, PointerRoutedEventArgs e)
+        {
+            ViewModel.CurrentBrowser.Value.Uri.Value = ((Favorite)((TextBlock)sender).DataContext).Uri;
+            
+            
+        }
+
+        private void FavoriteList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                ViewModel.CurrentBrowser.Value.Uri.Value = ((Favorite)e.AddedItems[0]).Uri;
+                FavoriteList.SelectedItem = null;
+                this.Pivot.IsPaneOpen = false;
+            }
+
         }
     }
 }
