@@ -29,10 +29,12 @@ namespace CompactBrowser
     {
 
         private IFavoriteService favoriteService = new FavoriteService();
+        private ISettingService settingService = new SettingsService();
 
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             RegisterInstance(favoriteService, typeof(IFavoriteService), registerAsSingleton: true);
+            RegisterInstance(settingService, typeof(ISettingService), registerAsSingleton: true);
             return base.OnInitializeAsync(args);
         }
 
@@ -42,6 +44,7 @@ namespace CompactBrowser
             if (args.PreviousExecutionState != ApplicationExecutionState.Running)
             {
                 await favoriteService.LoadFavoriteAsync();
+                await settingService.LoadSettingsAsync();
             }
             
             NavigationService.Navigate("Main", null);
@@ -50,6 +53,7 @@ namespace CompactBrowser
         protected override async Task OnSuspendingApplicationAsync()
         {
             await favoriteService.SaveFavoriteAsync();
+            await settingService.SaveSettingsAsync();
         }
     }
 }

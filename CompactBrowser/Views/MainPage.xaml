@@ -12,106 +12,104 @@
     mc:Ignorable="d"
     prism:ViewModelLocator.AutoWireViewModel="True"
     d:DataContext="{d:DesignInstance Type=model:MainPageViewModel}">
-
-    <control:BrowserTabControl x:Name="Pivot" ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" >
-        <control:BrowserTabControl.NavigationBar>
-            <RelativePanel>
-                <Button x:Name="TopBack" RelativePanel.AlignLeftWithPanel="True" ToolTipService.ToolTip="戻る" Command="{Binding CurrentBrowser.Value.GoBack}" Height="45" Width="45">
-                    <SymbolIcon Symbol="Back"/>
-                </Button>
-                <Button x:Name="TopForward" RelativePanel.RightOf="TopBack" ToolTipService.ToolTip="進む" Command="{Binding CurrentBrowser.Value.GoForward}" Height="45" Width="45">
-                    <SymbolIcon Symbol="Forward"/>
-                </Button>
-                <Button x:Name="TopRefresh" RelativePanel.RightOf="TopForward" ToolTipService.ToolTip="更新" Command="{Binding CurrentBrowser.Value.Refresh}" Height="45" Width="45">
-                    <SymbolIcon Symbol="Refresh"/>
-                </Button>
-                <Border RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
-                    <TextBox Text="{Binding CurrentBrowser.Value.Uri.Value}" Height="35" Margin="10,5,10,5"  KeyUp="TextBox_KeyUp"/>
-                </Border>
-                <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{x:Bind ViewModel.Favorite}" Height="45" Width="45">
-                    <SymbolIcon Symbol="OutlineStar" />
-                </Button>
-                <Button x:Name="TopPip" RelativePanel.LeftOf="TopOther" ToolTipService.ToolTip="コンパクト化" Click="Button_Click" Height="45" Width="45">
-                    <SymbolIcon Symbol="Go"/>
-                </Button>
-                <Button x:Name="TopOther" RelativePanel.AlignRightWithPanel="True" ToolTipService.ToolTip="その他" Click="TopOther_Click" Height="45" Width="45">
-                    <SymbolIcon Symbol="More"/>
-                </Button>
-            </RelativePanel>
-        </control:BrowserTabControl.NavigationBar>
-
-        <control:BrowserTabControl.RightHeader>
-            <Button Content="+" Command="{Binding AddBrowser}"/>
-        </control:BrowserTabControl.RightHeader>
-
-
-        <control:BrowserTabControl.HeaderTemplate>
-            <DataTemplate>
-                <Grid Width="200">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="{Binding Title.Value}" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{Binding Title.Value}"/>
-                    <Button Grid.Column="1" ToolTipService.ToolTip="閉じる" Click="Close_Click" Background="Transparent">
-                        <SymbolIcon Symbol="Clear"/>
+    <Grid>
+        <control:BrowserTabControl x:Name="Pivot" ItemsSource="{Binding Browsers}" SelectedItem="{Binding CurrentBrowser.Value, Mode=TwoWay}" >
+            <control:BrowserTabControl.NavigationBar>
+                <RelativePanel>
+                    <Button x:Name="TopBack" RelativePanel.AlignLeftWithPanel="True" ToolTipService.ToolTip="戻る" Command="{Binding CurrentBrowser.Value.GoBack}" Height="45" Width="45">
+                        <SymbolIcon Symbol="Back"/>
                     </Button>
-                </Grid>
-            </DataTemplate>
-        </control:BrowserTabControl.HeaderTemplate>
+                    <Button x:Name="TopForward" RelativePanel.RightOf="TopBack" ToolTipService.ToolTip="進む" Command="{Binding CurrentBrowser.Value.GoForward}" Height="45" Width="45">
+                        <SymbolIcon Symbol="Forward"/>
+                    </Button>
+                    <Button x:Name="TopRefresh" RelativePanel.RightOf="TopForward" ToolTipService.ToolTip="更新" Command="{Binding CurrentBrowser.Value.Refresh}" Height="45" Width="45">
+                        <SymbolIcon Symbol="Refresh"/>
+                    </Button>
+                    <Border RelativePanel.RightOf="TopRefresh" RelativePanel.LeftOf="TopFavorite" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+                        <TextBox Text="{Binding CurrentBrowser.Value.Uri.Value}" Height="35" Margin="10,5,10,5"  KeyUp="TextBox_KeyUp"/>
+                    </Border>
+                    <Button x:Name="TopFavorite" RelativePanel.LeftOf="TopPip" ToolTipService.ToolTip="ブックマーク" Command="{x:Bind ViewModel.Favorite}" Height="45" Width="45">
+                        <SymbolIcon Symbol="OutlineStar" />
+                    </Button>
+                    <Button x:Name="TopPip" RelativePanel.LeftOf="TopOther" ToolTipService.ToolTip="コンパクト化" Click="Button_Click" Height="45" Width="45">
+                        <SymbolIcon Symbol="Go"/>
+                    </Button>
+                    <Button x:Name="TopOther" RelativePanel.AlignRightWithPanel="True" ToolTipService.ToolTip="その他" Click="TopOther_Click" Height="45" Width="45">
+                        <SymbolIcon Symbol="More"/>
+                    </Button>
+                </RelativePanel>
+            </control:BrowserTabControl.NavigationBar>
 
-        <control:BrowserTabControl.ItemTemplate>
-            <DataTemplate>
-                <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested"/>
-            </DataTemplate>
-        </control:BrowserTabControl.ItemTemplate>
-        <control:BrowserTabControl.Pane>
-            <Pivot>
-                <PivotItem>
-                    <PivotItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Symbol="OutlineStar"/>
-                            <TextBlock Text="お気に入り" Margin="5,0,0,0"/>
-                        </StackPanel>
-                    </PivotItem.Header>
-                    <ListBox x:Name="FavoriteList" ItemsSource="{x:Bind ViewModel.Favorites}" SelectionMode="Single" SelectionChanged="FavoriteList_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="models:Favorite">
-                                <TextBlock Text="{x:Bind Title}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </PivotItem>
-                <PivotItem>
-                    <PivotItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Symbol="Setting"/>
-                            <TextBlock Text="設定" Margin="5,0,0,0"/>
-                        </StackPanel>
-                    </PivotItem.Header>
-                    <Hub Orientation="Vertical" Margin="0,-45,0,0">
-                        <HubSection Header="Compact Overly時の設定">
-                            <DataTemplate>
-                                <StackPanel>
-                                    <ToggleSwitch Header="コントロールをブラウザにかぶせる"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </HubSection>
-                    </Hub>
-                </PivotItem>
-            </Pivot>
-        </control:BrowserTabControl.Pane>
-    </control:BrowserTabControl>
+            <control:BrowserTabControl.RightHeader>
+                <Button Content="+" Command="{Binding AddBrowser}"/>
+            </control:BrowserTabControl.RightHeader>
 
-    <prism:SessionStateAwarePage.BottomAppBar>
-        <CommandBar x:Name="BottomAppBar" Visibility="Collapsed" VerticalAlignment="Bottom" >
+
+            <control:BrowserTabControl.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Width="200">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Title.Value}" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{Binding Title.Value}"/>
+                        <Button Grid.Column="1" ToolTipService.ToolTip="閉じる" Click="Close_Click" Background="Transparent">
+                            <SymbolIcon Symbol="Clear"/>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </control:BrowserTabControl.HeaderTemplate>
+
+            <control:BrowserTabControl.ItemTemplate>
+                <DataTemplate>
+                    <control:BrowserControl NewWindowReqested="BrowserControl_NewWindowReqested"/>
+                </DataTemplate>
+            </control:BrowserTabControl.ItemTemplate>
+            <control:BrowserTabControl.Pane>
+                <Pivot>
+                    <PivotItem>
+                        <PivotItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="OutlineStar"/>
+                                <TextBlock Text="お気に入り" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </PivotItem.Header>
+                        <ListBox x:Name="FavoriteList" ItemsSource="{x:Bind ViewModel.Favorites}" SelectionMode="Single" SelectionChanged="FavoriteList_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:Favorite">
+                                    <TextBlock Text="{x:Bind Title}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </PivotItem>
+                    <PivotItem>
+                        <PivotItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Setting"/>
+                                <TextBlock Text="設定" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </PivotItem.Header>
+                        <Hub Orientation="Vertical" Margin="0,-45,0,0">
+                            <HubSection Header="Compact Overly時の設定">
+                                <DataTemplate x:DataType="model:MainPageViewModel">
+                                    <StackPanel>
+                                        <ToggleSwitch Header="ブラウザをリサイズする" IsOn="{x:Bind Settings.Value.IsResizeBrowser, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </HubSection>
+                        </Hub>
+                    </PivotItem>
+                </Pivot>
+            </control:BrowserTabControl.Pane>
+        </control:BrowserTabControl>
+        <CommandBar x:Name="BottomAppBar" Visibility="Collapsed" VerticalAlignment="Bottom" ClosedDisplayMode="Minimal" >
             <AppBarButton Grid.Column="0" Icon="Back" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.GoBack, Mode=OneWay}"/>
             <AppBarButton Grid.Column="1" Icon="Forward" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.GoForward, Mode=OneWay}"/>
             <AppBarButton Grid.Column="2" Icon="Refresh" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CurrentBrowser.Value.Refresh, Mode=OneWay}"/>
             <AppBarButton Grid.Column="4" Icon="OutlineStar"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Favorite, Mode=OneWay}"/>
             <AppBarButton Grid.Column="5" Icon="BackToWindow"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click" />
         </CommandBar>
-    </prism:SessionStateAwarePage.BottomAppBar>
+    </Grid>
 
 </prism:SessionStateAwarePage>

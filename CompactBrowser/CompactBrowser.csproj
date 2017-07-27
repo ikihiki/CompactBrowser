@@ -104,6 +104,8 @@
     <Compile Include="Controls\BrowserTabControl.xaml.cs">
       <DependentUpon>BrowserTabControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Services\SetrtingsService.cs" />
     <Compile Include="ViewModels\BrowserViewModel.cs" />
     <Compile Include="Models\Favorite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

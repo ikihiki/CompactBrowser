@@ -55,12 +55,18 @@ namespace CompactBrowser.Views
                 if (sender.IsVisible)
                 {
                     this.BottomAppBar.Visibility = Visibility.Visible;
-                    this.Pivot.Margin = new Thickness(0, 32, 0, 0);
+                    if (ViewModel.Settings.Value.IsResizeBrowser)
+                    {
+                        this.Pivot.Margin = new Thickness(0, 32, 0, 24);
+                    }
                 }
                 else
                 {
                     this.BottomAppBar.Visibility = Visibility.Collapsed;
-                    this.Pivot.Margin = new Thickness();
+                    if (ViewModel.Settings.Value.IsResizeBrowser)
+                    {
+                        this.Pivot.Margin = new Thickness();
+                    }
                 }
             }
         }
@@ -79,7 +85,10 @@ namespace CompactBrowser.Views
                     Pivot.HeaderVisibility = Visibility.Collapsed;
                     BottomAppBar.Visibility = Visibility.Visible;
                     viewMode = ApplicationViewMode.CompactOverlay;
-                    this.Pivot.Margin = new Thickness(0, 32, 0, 0);
+                    if (ViewModel.Settings.Value.IsResizeBrowser)
+                    {
+                        this.Pivot.Margin = new Thickness(0, 32, 0, 24);
+                    }
                 }
 
             }
@@ -90,7 +99,10 @@ namespace CompactBrowser.Views
                     Pivot.HeaderVisibility = Visibility.Visible;
                     BottomAppBar.Visibility = Visibility.Collapsed;
                     viewMode = ApplicationViewMode.Default;
-                    this.Pivot.Margin = new Thickness();
+                    if (ViewModel.Settings.Value.IsResizeBrowser)
+                    {
+                        this.Pivot.Margin = new Thickness();
+                    }
                 }
 
             }

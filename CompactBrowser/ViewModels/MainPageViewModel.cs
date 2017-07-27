@@ -18,6 +18,9 @@ namespace CompactBrowser.ViewModels
         public ReactiveCollection<BrowserViewModel> Browsers { get; } = new ReactiveCollection<BrowserViewModel>();
         public ReactiveProperty<BrowserViewModel> CurrentBrowser { get; } = new ReactiveProperty<BrowserViewModel>();
 
+        private ISettingService settingService;
+        public IReactiveProperty<Settings> Settings { get; }
+
         private IFavoriteService favoriteService;
         public ReadOnlyReactiveCollection<Favorite> Favorites { get; } 
         public ReactiveCommand Favorite { get; }
@@ -29,8 +32,11 @@ namespace CompactBrowser.ViewModels
         public ReactiveCommand AddBrowser { get; }
         public ReactiveCommand<Uri> AddBrowserWithUri { get; }
 
-        public MainPageViewModel(IFavoriteService favoriteService)
+        public MainPageViewModel(IFavoriteService favoriteService, ISettingService settingService)
         {
+            this.settingService = settingService;
+            Settings = settingService.Settings;
+
             this.favoriteService = favoriteService;
             Favorites = this.favoriteService.GetFavorite();
 
